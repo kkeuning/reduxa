@@ -134,6 +134,7 @@ func (g *Generator) generateReduxActionCreators(jsFile string, api *design.APIDe
 	sort.Strings(keys)
 	for _, n := range keys {
 		for _, a := range actions[n] {
+			a.Parent.BasePath = strings.TrimLeft(a.Parent.BasePath, "/")
 			data := map[string]interface{}{
 				"Action":  a,
 				"API":     api,
@@ -177,6 +178,7 @@ func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefin
 	sort.Strings(keys)
 	for _, n := range keys {
 		for _, a := range actions[n] {
+			a.Parent.BasePath = strings.TrimLeft(a.Parent.BasePath, "/")
 			data := map[string]interface{}{"Action": a}
 			funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper}
 			if err = file.ExecuteTemplate("actionTypes", actionTypesT, funcs, data); err != nil {
@@ -224,6 +226,7 @@ func (g *Generator) generateReduxActions(jsFile string, api *design.APIDefinitio
 	sort.Strings(keys)
 	for _, n := range keys {
 		for _, a := range actions[n] {
+			a.Parent.BasePath = strings.TrimLeft(a.Parent.BasePath, "/")
 			data := map[string]interface{}{
 				"Action":  a,
 				"API":     api,
@@ -276,14 +279,14 @@ import axios from 'axios';
 `
 
 const actionCreatorsT = `{{$params := params .Action}}
-{{$name := printf "%s%s" .Action.Name (title .Action.Parent.Name)}}// {{if .Action.Description}}{{.Action.Description}}{{else}}{{$name}} calls the {{.Action.Name}} action of the {{.Action.Parent.Name}} resource.{{end}}
+{{$name := printf "%s%s" .Action.Name (title .Action.Parent.BasePath)}}// {{if .Action.Description}}{{.Action.Description}}{{else}}{{$name}} calls the {{.Action.Name}} action of the {{.Action.Parent.Name}} resource.{{end}}
 // path is the request path, the format is "{{(index .Action.Routes 0).FullPath}}"
 {{if .Action.Payload}}// data contains the action payload (request body)
 {{end}}{{if $params}}// {{join $params ", "}} {{if gt (len $params) 1}}are{{else}}is{{end}} used to build the request query string.
 {{end}}// This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const {{.Action.Name}}{{title .Action.Parent.Name}} = (path{{if .Action.Payload}}, data{{end}}{{if $params}}, {{join $params ", "}}{{end}}) => {
+export const {{.Action.Name}}{{title .Action.Parent.BasePath}} = (path{{if .Action.Payload}}, data{{end}}{{if $params}}, {{join $params ", "}}{{end}}) => {
   return (dispatch) => {
-    dispatch(actions.request{{title .Action.Name}}{{title .Action.Parent.Name}}());
+    dispatch(actions.request{{title .Action.Name}}{{title .Action.Parent.BasePath}}());
     return axios({
       timeout: {{.Timeout}},
       url: '{{.Scheme}}://{{.Host}}' + path,
@@ -296,38 +299,38 @@ export const {{.Action.Name}}{{title .Action.Parent.Name}} = (path{{if .Action.P
 {{end}}      responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receive{{title .Action.Name}}{{title .Action.Parent.Name}}Success(response.data, response.status));
+        dispatch(actions.receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Success(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receive{{title .Action.Name}}{{title .Action.Parent.Name}}Error(response.data, response.status));
+        dispatch(actions.receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Error(response.data, response.status));
       });
   };
 };
 `
-const resourceActionsTypesT = `export const {{toUpper (.Action.Parent.Name)}}_RESET = '{{toUpper (.Action.Parent.Name)}}_RESET';
+const resourceActionsTypesT = `export const {{toUpper (.Action.Parent.BasePath)}}_RESET = '{{toUpper (.Action.Parent.BasePath)}}_RESET';
 `
-const resourceActionsT = `export const {{title .Action.Name}}{{title .Action.Parent.Name}}Reset = () => ({
-  type: types.{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}}_RESET
+const resourceActionsT = `export const {{title .Action.Name}}{{title .Action.Parent.BasePath}}Reset = () => ({
+  type: types.{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}_RESET
 });`
 
-const actionTypesT = `export const REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}} = 'REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}}';
-export const RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.Name)}}_SUCCESS = 'RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.Name)}}_SUCCESS';
-export const RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.Name)}}_ERROR = 'RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.Name)}}_ERROR';
+const actionTypesT = `export const REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}} = 'REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}';
+export const RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.BasePath)}}_SUCCESS = 'RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.BasePath)}}_SUCCESS';
+export const RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.BasePath)}}_ERROR = 'RECV_{{toUpper .Action.Name}}_{{toUpper (.Action.Parent.BasePath)}}_ERROR';
 `
 
-const actionsT = `export const request{{title .Action.Name}}{{title .Action.Parent.Name}} = () => ({
-  type: types.REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}}
+const actionsT = `export const request{{title .Action.Name}}{{title .Action.Parent.BasePath}} = () => ({
+  type: types.REQ_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}
 });
-export const receive{{title .Action.Name}}{{title .Action.Parent.Name}}Success = (json, code) => ({
-  type: types.RECV_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}}_SUCCESS,
+export const receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Success = (json, status) => ({
+  type: types.RECV_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receive{{title .Action.Name}}{{title .Action.Parent.Name}}Error = (json, code) => ({
-  type: types.RECV_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.Name}}_ERROR,
+export const receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Error = (json, status) => ({
+  type: types.RECV_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
 `
