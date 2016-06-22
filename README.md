@@ -9,13 +9,14 @@ Assumes you are using ES6 and likely Babel.
 goagen gen -d github.com/goadesign/goa-cellar/design --pkg-path=github.com/kkeuning/reduxa
 ```
 
-Currently generates your action types, actions, and action creators for use with Redux, Axios, and Redux Thunk middleware.
+Currently generates your action types, actions, and action creators for use with Redux, Axios, and Redux Thunk middleware.  Scaffolding for reducers is under consideration for the future roadmap.  
+
 
 Thanks to Dan Abramov for Redux and to Raphael Simon for Goa.  
 
-Examples:
+Examples, based on goa's goa-cellar design:
 
-Generated redux action types:
+Generated Redux action types:
 ```
 export const REQ_LIST_BOTTLES = 'REQ_LIST_BOTTLES';
 export const RECV_LIST_BOTTLES_SUCCESS = 'RECV_LIST_BOTTLES_SUCCESS';
