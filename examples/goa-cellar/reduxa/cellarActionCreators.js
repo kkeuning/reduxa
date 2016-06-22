@@ -8,9 +8,9 @@ import axios from 'axios';
 // path is the request path, the format is "/cellar/accounts"
 // data contains the action payload (request body)
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const createAccount = (path, data) => {
+export const createAccounts = (path, data) => {
   return (dispatch) => {
-    dispatch(actions.requestCreateAccount());
+    dispatch(actions.requestCreateAccounts());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -19,10 +19,10 @@ export const createAccount = (path, data) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveCreateAccountSuccess(response.data, response.status));
+        dispatch(actions.receiveCreateAccountsSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveCreateAccountError(response.data, response.status));
+        dispatch(actions.receiveCreateAccountsError(response.data, response.status));
       });
   };
 };
@@ -31,9 +31,9 @@ export const createAccount = (path, data) => {
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles"
 // data contains the action payload (request body)
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const createBottle = (path, data) => {
+export const createBottles = (path, data) => {
   return (dispatch) => {
-    dispatch(actions.requestCreateBottle());
+    dispatch(actions.requestCreateBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -42,20 +42,20 @@ export const createBottle = (path, data) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveCreateBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveCreateBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveCreateBottleError(response.data, response.status));
+        dispatch(actions.receiveCreateBottlesError(response.data, response.status));
       });
   };
 };
 
-// deleteAccount calls the delete action of the account resource.
+// deleteAccounts calls the delete action of the account resource.
 // path is the request path, the format is "/cellar/accounts/:accountID"
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const deleteAccount = (path) => {
+export const deleteAccounts = (path) => {
   return (dispatch) => {
-    dispatch(actions.requestDeleteAccount());
+    dispatch(actions.requestDeleteAccounts());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -63,20 +63,20 @@ export const deleteAccount = (path) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveDeleteAccountSuccess(response.data, response.status));
+        dispatch(actions.receiveDeleteAccountsSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveDeleteAccountError(response.data, response.status));
+        dispatch(actions.receiveDeleteAccountsError(response.data, response.status));
       });
   };
 };
 
-// deleteBottle calls the delete action of the bottle resource.
+// deleteBottles calls the delete action of the bottle resource.
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const deleteBottle = (path) => {
+export const deleteBottles = (path) => {
   return (dispatch) => {
-    dispatch(actions.requestDeleteBottle());
+    dispatch(actions.requestDeleteBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -84,10 +84,10 @@ export const deleteBottle = (path) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveDeleteBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveDeleteBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveDeleteBottleError(response.data, response.status));
+        dispatch(actions.receiveDeleteBottlesError(response.data, response.status));
       });
   };
 };
@@ -96,9 +96,9 @@ export const deleteBottle = (path) => {
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles"
 // years is used to build the request query string.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const listBottle = (path, years) => {
+export const listBottles = (path, years) => {
   return (dispatch) => {
-    dispatch(actions.requestListBottle());
+    dispatch(actions.requestListBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -109,21 +109,21 @@ export const listBottle = (path, years) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveListBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveListBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveListBottleError(response.data, response.status));
+        dispatch(actions.receiveListBottlesError(response.data, response.status));
       });
   };
 };
 
-// rateBottle calls the rate action of the bottle resource.
+// rateBottles calls the rate action of the bottle resource.
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID/actions/rate"
 // data contains the action payload (request body)
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const rateBottle = (path, data) => {
+export const rateBottles = (path, data) => {
   return (dispatch) => {
-    dispatch(actions.requestRateBottle());
+    dispatch(actions.requestRateBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -132,10 +132,10 @@ export const rateBottle = (path, data) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveRateBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveRateBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveRateBottleError(response.data, response.status));
+        dispatch(actions.receiveRateBottlesError(response.data, response.status));
       });
   };
 };
@@ -143,9 +143,9 @@ export const rateBottle = (path, data) => {
 // Retrieve account with given id. IDs 1 and 2 pre-exist in the system.
 // path is the request path, the format is "/cellar/accounts/:accountID"
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const showAccount = (path) => {
+export const showAccounts = (path) => {
   return (dispatch) => {
-    dispatch(actions.requestShowAccount());
+    dispatch(actions.requestShowAccounts());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -153,10 +153,10 @@ export const showAccount = (path) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveShowAccountSuccess(response.data, response.status));
+        dispatch(actions.receiveShowAccountsSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveShowAccountError(response.data, response.status));
+        dispatch(actions.receiveShowAccountsError(response.data, response.status));
       });
   };
 };
@@ -164,9 +164,9 @@ export const showAccount = (path) => {
 // Retrieve bottle with given id
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const showBottle = (path) => {
+export const showBottles = (path) => {
   return (dispatch) => {
-    dispatch(actions.requestShowBottle());
+    dispatch(actions.requestShowBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -174,10 +174,10 @@ export const showBottle = (path) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveShowBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveShowBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveShowBottleError(response.data, response.status));
+        dispatch(actions.receiveShowBottlesError(response.data, response.status));
       });
   };
 };
@@ -186,9 +186,9 @@ export const showBottle = (path) => {
 // path is the request path, the format is "/cellar/accounts/:accountID"
 // data contains the action payload (request body)
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const updateAccount = (path, data) => {
+export const updateAccounts = (path, data) => {
   return (dispatch) => {
-    dispatch(actions.requestUpdateAccount());
+    dispatch(actions.requestUpdateAccounts());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -197,21 +197,21 @@ export const updateAccount = (path, data) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveUpdateAccountSuccess(response.data, response.status));
+        dispatch(actions.receiveUpdateAccountsSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveUpdateAccountError(response.data, response.status));
+        dispatch(actions.receiveUpdateAccountsError(response.data, response.status));
       });
   };
 };
 
-// updateBottle calls the update action of the bottle resource.
+// updateBottles calls the update action of the bottle resource.
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
 // data contains the action payload (request body)
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const updateBottle = (path, data) => {
+export const updateBottles = (path, data) => {
   return (dispatch) => {
-    dispatch(actions.requestUpdateBottle());
+    dispatch(actions.requestUpdateBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -220,10 +220,10 @@ export const updateBottle = (path, data) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveUpdateBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveUpdateBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveUpdateBottleError(response.data, response.status));
+        dispatch(actions.receiveUpdateBottlesError(response.data, response.status));
       });
   };
 };
@@ -231,9 +231,9 @@ export const updateBottle = (path, data) => {
 // Retrieve bottle with given id
 // path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID/watch"
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const watchBottle = (path) => {
+export const watchBottles = (path) => {
   return (dispatch) => {
-    dispatch(actions.requestWatchBottle());
+    dispatch(actions.requestWatchBottles());
     return axios({
       timeout: 20000,
       url: 'http://cellar.goa.design' + path,
@@ -241,10 +241,10 @@ export const watchBottle = (path) => {
       responseType: 'json'
     })
       .then((response) => {
-        dispatch(actions.receiveWatchBottleSuccess(response.data, response.status));
+        dispatch(actions.receiveWatchBottlesSuccess(response.data, response.status));
       })
       .catch((response) => {
-        dispatch(actions.receiveWatchBottleError(response.data, response.status));
+        dispatch(actions.receiveWatchBottlesError(response.data, response.status));
       });
   };
 };

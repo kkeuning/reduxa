@@ -1,168 +1,168 @@
 // This module exports redux actions for the cellar API hosted at cellar.goa.design.
 import * as types from './cellarActionTypes';
 
-export const requestCreateAccount = () => ({
-  type: types.REQ_CREATE_ACCOUNT
+export const requestCreateAccounts = () => ({
+  type: types.REQ_CREATE_ACCOUNTS
 });
-export const receiveCreateAccountSuccess = (json, code) => ({
-  type: types.RECV_CREATE_ACCOUNT_SUCCESS,
+export const receiveCreateAccountsSuccess = (json, status) => ({
+  type: types.RECV_CREATE_ACCOUNTS_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveCreateAccountError = (json, code) => ({
-  type: types.RECV_CREATE_ACCOUNT_ERROR,
+export const receiveCreateAccountsError = (json, status) => ({
+  type: types.RECV_CREATE_ACCOUNTS_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestCreateBottle = () => ({
-  type: types.REQ_CREATE_BOTTLE
+export const requestCreateBottles = () => ({
+  type: types.REQ_CREATE_BOTTLES
 });
-export const receiveCreateBottleSuccess = (json, code) => ({
-  type: types.RECV_CREATE_BOTTLE_SUCCESS,
+export const receiveCreateBottlesSuccess = (json, status) => ({
+  type: types.RECV_CREATE_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveCreateBottleError = (json, code) => ({
-  type: types.RECV_CREATE_BOTTLE_ERROR,
+export const receiveCreateBottlesError = (json, status) => ({
+  type: types.RECV_CREATE_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestDeleteAccount = () => ({
-  type: types.REQ_DELETE_ACCOUNT
+export const requestDeleteAccounts = () => ({
+  type: types.REQ_DELETE_ACCOUNTS
 });
-export const receiveDeleteAccountSuccess = (json, code) => ({
-  type: types.RECV_DELETE_ACCOUNT_SUCCESS,
+export const receiveDeleteAccountsSuccess = (json, status) => ({
+  type: types.RECV_DELETE_ACCOUNTS_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveDeleteAccountError = (json, code) => ({
-  type: types.RECV_DELETE_ACCOUNT_ERROR,
+export const receiveDeleteAccountsError = (json, status) => ({
+  type: types.RECV_DELETE_ACCOUNTS_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestDeleteBottle = () => ({
-  type: types.REQ_DELETE_BOTTLE
+export const requestDeleteBottles = () => ({
+  type: types.REQ_DELETE_BOTTLES
 });
-export const receiveDeleteBottleSuccess = (json, code) => ({
-  type: types.RECV_DELETE_BOTTLE_SUCCESS,
+export const receiveDeleteBottlesSuccess = (json, status) => ({
+  type: types.RECV_DELETE_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveDeleteBottleError = (json, code) => ({
-  type: types.RECV_DELETE_BOTTLE_ERROR,
+export const receiveDeleteBottlesError = (json, status) => ({
+  type: types.RECV_DELETE_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestListBottle = () => ({
-  type: types.REQ_LIST_BOTTLE
+export const requestListBottles = () => ({
+  type: types.REQ_LIST_BOTTLES
 });
-export const receiveListBottleSuccess = (json, code) => ({
-  type: types.RECV_LIST_BOTTLE_SUCCESS,
+export const receiveListBottlesSuccess = (json, status) => ({
+  type: types.RECV_LIST_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveListBottleError = (json, code) => ({
-  type: types.RECV_LIST_BOTTLE_ERROR,
+export const receiveListBottlesError = (json, status) => ({
+  type: types.RECV_LIST_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestRateBottle = () => ({
-  type: types.REQ_RATE_BOTTLE
+export const requestRateBottles = () => ({
+  type: types.REQ_RATE_BOTTLES
 });
-export const receiveRateBottleSuccess = (json, code) => ({
-  type: types.RECV_RATE_BOTTLE_SUCCESS,
+export const receiveRateBottlesSuccess = (json, status) => ({
+  type: types.RECV_RATE_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveRateBottleError = (json, code) => ({
-  type: types.RECV_RATE_BOTTLE_ERROR,
+export const receiveRateBottlesError = (json, status) => ({
+  type: types.RECV_RATE_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestShowAccount = () => ({
-  type: types.REQ_SHOW_ACCOUNT
+export const requestShowAccounts = () => ({
+  type: types.REQ_SHOW_ACCOUNTS
 });
-export const receiveShowAccountSuccess = (json, code) => ({
-  type: types.RECV_SHOW_ACCOUNT_SUCCESS,
+export const receiveShowAccountsSuccess = (json, status) => ({
+  type: types.RECV_SHOW_ACCOUNTS_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveShowAccountError = (json, code) => ({
-  type: types.RECV_SHOW_ACCOUNT_ERROR,
+export const receiveShowAccountsError = (json, status) => ({
+  type: types.RECV_SHOW_ACCOUNTS_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestShowBottle = () => ({
-  type: types.REQ_SHOW_BOTTLE
+export const requestShowBottles = () => ({
+  type: types.REQ_SHOW_BOTTLES
 });
-export const receiveShowBottleSuccess = (json, code) => ({
-  type: types.RECV_SHOW_BOTTLE_SUCCESS,
+export const receiveShowBottlesSuccess = (json, status) => ({
+  type: types.RECV_SHOW_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveShowBottleError = (json, code) => ({
-  type: types.RECV_SHOW_BOTTLE_ERROR,
+export const receiveShowBottlesError = (json, status) => ({
+  type: types.RECV_SHOW_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestUpdateAccount = () => ({
-  type: types.REQ_UPDATE_ACCOUNT
+export const requestUpdateAccounts = () => ({
+  type: types.REQ_UPDATE_ACCOUNTS
 });
-export const receiveUpdateAccountSuccess = (json, code) => ({
-  type: types.RECV_UPDATE_ACCOUNT_SUCCESS,
+export const receiveUpdateAccountsSuccess = (json, status) => ({
+  type: types.RECV_UPDATE_ACCOUNTS_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveUpdateAccountError = (json, code) => ({
-  type: types.RECV_UPDATE_ACCOUNT_ERROR,
+export const receiveUpdateAccountsError = (json, status) => ({
+  type: types.RECV_UPDATE_ACCOUNTS_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestUpdateBottle = () => ({
-  type: types.REQ_UPDATE_BOTTLE
+export const requestUpdateBottles = () => ({
+  type: types.REQ_UPDATE_BOTTLES
 });
-export const receiveUpdateBottleSuccess = (json, code) => ({
-  type: types.RECV_UPDATE_BOTTLE_SUCCESS,
+export const receiveUpdateBottlesSuccess = (json, status) => ({
+  type: types.RECV_UPDATE_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveUpdateBottleError = (json, code) => ({
-  type: types.RECV_UPDATE_BOTTLE_ERROR,
+export const receiveUpdateBottlesError = (json, status) => ({
+  type: types.RECV_UPDATE_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
-export const requestWatchBottle = () => ({
-  type: types.REQ_WATCH_BOTTLE
+export const requestWatchBottles = () => ({
+  type: types.REQ_WATCH_BOTTLES
 });
-export const receiveWatchBottleSuccess = (json, code) => ({
-  type: types.RECV_WATCH_BOTTLE_SUCCESS,
+export const receiveWatchBottlesSuccess = (json, status) => ({
+  type: types.RECV_WATCH_BOTTLES_SUCCESS,
   data: json,
   message: false,
-  code: code
+  status: status
 });
-export const receiveWatchBottleError = (json, code) => ({
-  type: types.RECV_WATCH_BOTTLE_ERROR,
+export const receiveWatchBottlesError = (json, status) => ({
+  type: types.RECV_WATCH_BOTTLES_ERROR,
   data: false,
   message: json,
-  code: code
+  status: status
 });
