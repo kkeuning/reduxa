@@ -1,4 +1,4 @@
-// This module exports redux actions for the cellar API hosted at cellar.goa.design.
+// This module exports redux actions for the cellar API hosted at localhost:8081.
 import * as types from './cellarActionTypes';
 
 export const requestCreateAccounts = () => ({
@@ -57,6 +57,36 @@ export const receiveDeleteBottlesSuccess = (json, status) => ({
 });
 export const receiveDeleteBottlesError = (json, status) => ({
   type: types.RECV_DELETE_BOTTLES_ERROR,
+  data: false,
+  message: json,
+  status: status
+});
+export const requestHealth_ah = () => ({
+  type: types.REQ_HEALTH__AH
+});
+export const receiveHealth_ahSuccess = (json, status) => ({
+  type: types.RECV_HEALTH__AH_SUCCESS,
+  data: json,
+  message: false,
+  status: status
+});
+export const receiveHealth_ahError = (json, status) => ({
+  type: types.RECV_HEALTH__AH_ERROR,
+  data: false,
+  message: json,
+  status: status
+});
+export const requestListAccounts = () => ({
+  type: types.REQ_LIST_ACCOUNTS
+});
+export const receiveListAccountsSuccess = (json, status) => ({
+  type: types.RECV_LIST_ACCOUNTS_SUCCESS,
+  data: json,
+  message: false,
+  status: status
+});
+export const receiveListAccountsError = (json, status) => ({
+  type: types.RECV_LIST_ACCOUNTS_ERROR,
   data: false,
   message: json,
   status: status
