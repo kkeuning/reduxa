@@ -1,4 +1,4 @@
-// This module exports redux action creators for the cellar API hosted at cellar.goa.design.
+// This module exports redux action creators for the cellar API hosted at localhost:8081.
 // Redux Thunk middleware or equivalent is required to use these action creators.
 // It uses the axios javascript library for making the actual HTTP requests.
 import * as actions from './cellarActions';
@@ -13,7 +13,7 @@ export const createAccounts = (path, data) => {
     dispatch(actions.requestCreateAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'post',
       data: data,
       responseType: 'json'
@@ -36,7 +36,7 @@ export const createBottles = (path, data) => {
     dispatch(actions.requestCreateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'post',
       data: data,
       responseType: 'json'
@@ -58,7 +58,7 @@ export const deleteAccounts = (path) => {
     dispatch(actions.requestDeleteAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'delete',
       responseType: 'json'
     })
@@ -79,7 +79,7 @@ export const deleteBottles = (path) => {
     dispatch(actions.requestDeleteBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'delete',
       responseType: 'json'
     })
@@ -88,6 +88,48 @@ export const deleteBottles = (path) => {
       })
       .catch((response) => {
         dispatch(actions.receiveDeleteBottlesError(response.data, response.status));
+      });
+  };
+};
+
+// Perform health check.
+// path is the request path, the format is "/cellar/_ah/health"
+// This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
+export const health_ah = (path) => {
+  return (dispatch) => {
+    dispatch(actions.requestHealth_ah());
+    return axios({
+      timeout: 20000,
+      url: 'http://localhost:8081' + path,
+      method: 'get',
+      responseType: 'json'
+    })
+      .then((response) => {
+        dispatch(actions.receiveHealth_ahSuccess(response.data, response.status));
+      })
+      .catch((response) => {
+        dispatch(actions.receiveHealth_ahError(response.data, response.status));
+      });
+  };
+};
+
+// Retrieve all accounts.
+// path is the request path, the format is "/cellar/accounts"
+// This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
+export const listAccounts = (path) => {
+  return (dispatch) => {
+    dispatch(actions.requestListAccounts());
+    return axios({
+      timeout: 20000,
+      url: 'http://localhost:8081' + path,
+      method: 'get',
+      responseType: 'json'
+    })
+      .then((response) => {
+        dispatch(actions.receiveListAccountsSuccess(response.data, response.status));
+      })
+      .catch((response) => {
+        dispatch(actions.receiveListAccountsError(response.data, response.status));
       });
   };
 };
@@ -101,7 +143,7 @@ export const listBottles = (path, years) => {
     dispatch(actions.requestListBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'get',
       params: {
         years: years
@@ -126,7 +168,7 @@ export const rateBottles = (path, data) => {
     dispatch(actions.requestRateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'put',
       data: data,
       responseType: 'json'
@@ -148,7 +190,7 @@ export const showAccounts = (path) => {
     dispatch(actions.requestShowAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'get',
       responseType: 'json'
     })
@@ -169,7 +211,7 @@ export const showBottles = (path) => {
     dispatch(actions.requestShowBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'get',
       responseType: 'json'
     })
@@ -191,7 +233,7 @@ export const updateAccounts = (path, data) => {
     dispatch(actions.requestUpdateAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'put',
       data: data,
       responseType: 'json'
@@ -214,7 +256,7 @@ export const updateBottles = (path, data) => {
     dispatch(actions.requestUpdateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'patch',
       data: data,
       responseType: 'json'
@@ -236,7 +278,7 @@ export const watchBottles = (path) => {
     dispatch(actions.requestWatchBottles());
     return axios({
       timeout: 20000,
-      url: 'http://cellar.goa.design' + path,
+      url: 'http://localhost:8081' + path,
       method: 'get',
       responseType: 'json'
     })
