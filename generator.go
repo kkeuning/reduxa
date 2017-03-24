@@ -17,11 +17,12 @@ import (
 
 // Generator is the application code generator.
 type Generator struct {
-	genfiles []string      // Generated files
-	outDir   string        // Destination directory
-	timeout  time.Duration // Timeout used by JavaScript client when making requests
-	scheme   string        // Scheme used by JavaScript client
-	host     string        // Host addressed by JavaScript client
+	genfiles []string              // Generated files
+	outDir   string                // Destination directory
+	timeout  time.Duration         // Timeout used by JavaScript client when making requests
+	scheme   string                // Scheme used by JavaScript client
+	host     string                // Host addressed by JavaScript client
+	api      *design.APIDefinition // The API definition
 }
 
 // Generate is the generator entry point called by the meta generator.
@@ -46,13 +47,13 @@ func Generate() (files []string, err error) {
 		return nil, err
 	}
 
-	g := &Generator{outDir: outDir, timeout: timeout, scheme: scheme, host: host}
+	g := &Generator{outDir: outDir, timeout: timeout, scheme: scheme, host: host, api: design.Design}
 
 	return g.Generate(design.Design)
 }
 
 // Generate produces the skeleton main.
-func (g *Generator) Generate(api *design.APIDefinition) (_ []string, err error) {
+func (g *Generator) Generate() (_ []string, err error) {
 	go utils.Catch(nil, func() { g.Cleanup() })
 
 	defer func() {
@@ -61,14 +62,14 @@ func (g *Generator) Generate(api *design.APIDefinition) (_ []string, err error) 
 		}
 	}()
 
-	if g.scheme == "" && len(api.Schemes) > 0 {
+	if g.scheme == "" && len(g.api.Schemes) > 0 {
 		g.scheme = api.Schemes[0]
 	}
 	if g.scheme == "" {
 		g.scheme = "http"
 	}
 	if g.host == "" {
-		g.host = api.Host
+		g.host = g.api.Host
 	}
 	if g.host == "" {
 		return nil, fmt.Errorf("missing host value, set it with --host")
@@ -84,19 +85,19 @@ func (g *Generator) Generate(api *design.APIDefinition) (_ []string, err error) 
 	g.genfiles = append(g.genfiles, g.outDir)
 
 	// Generate Redux action creators for this goa API
-	err = g.generateReduxActionCreators(filepath.Join(g.outDir, fmt.Sprint(api.Name+"ActionCreators.js")), api)
+	err = g.generateReduxActionCreators(filepath.Join(g.outDir, fmt.Sprint(g.api.Name+"ActionCreators.js")), g.api)
 	if err != nil {
 		return
 	}
 
 	// Generate Redux action types for this goa API
-	err = g.generateReduxActionTypes(filepath.Join(g.outDir, fmt.Sprint(api.Name, "ActionTypes.js")), api)
+	err = g.generateReduxActionTypes(filepath.Join(g.outDir, fmt.Sprint(g.api.Name, "ActionTypes.js")), g.api)
 	if err != nil {
 		return
 	}
 
 	// Generate Redux actions for this goa API
-	err = g.generateReduxActions(filepath.Join(g.outDir, fmt.Sprint(api.Name, "Actions.js")), api)
+	err = g.generateReduxActions(filepath.Join(g.outDir, fmt.Sprint(g.api.Name, "Actions.js")), g.api)
 	if err != nil {
 		return
 	}
