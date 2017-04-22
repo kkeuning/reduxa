@@ -3,7 +3,7 @@ goa plug-in to generate redux boilerplate
 
 Project status:  Reduxa is still experimental however the generated code has been used in production.  Pull requests are welcome.
 
-Breaking changes:  Release 0.2.0 substantially updates the templates.  Use 0.1.0 if you are dependent on the initial release.
+Breaking changes:  Release 0.2.x substantially updates the templates.  Use 0.1.0 if you are dependent on the initial release.
 
 Run `goagen` from inside your client project to create the `reduxa/` folder and generated code.
 
