@@ -43,7 +43,6 @@ export const receiveListBottlesError = (data, status) => ({
   type: types.RCV_LIST_BOTTLES_ERROR,
   data: data,
   status
->>>>>>> updated README.md
 });
 ```
 
