@@ -4,289 +4,574 @@
 import * as actions from './cellarActions';
 import axios from 'axios';
 
-// Create new account
-// path is the request path, the format is "/cellar/accounts"
+// createAccounts calls the create action of the account resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
 // data contains the action payload (request body)
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const createAccounts = (path, data) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const createAccounts = (url, options, data, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestCreateAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'post',
-      data: data,
-      responseType: 'json'
+      data,
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveCreateAccountsSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveCreateAccountsError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveCreateAccountsError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Record new bottle
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles"
+// createBottles calls the create action of the bottle resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
 // data contains the action payload (request body)
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const createBottles = (path, data) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const createBottles = (url, options, data, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestCreateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'post',
-      data: data,
-      responseType: 'json'
+      data,
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveCreateBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveCreateBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveCreateBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
 // deleteAccounts calls the delete action of the account resource.
-// path is the request path, the format is "/cellar/accounts/:accountID"
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const deleteAccounts = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const deleteAccounts = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestDeleteAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'delete',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveDeleteAccountsSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveDeleteAccountsError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveDeleteAccountsError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
 // deleteBottles calls the delete action of the bottle resource.
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const deleteBottles = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const deleteBottles = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestDeleteBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'delete',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveDeleteBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveDeleteBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveDeleteBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Perform health check.
-// path is the request path, the format is "/cellar/_ah/health"
+// healthAh calls the health action of the health resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/ah/health
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const health_ah = (path) => {
-  return (dispatch) => {
-    dispatch(actions.requestHealth_ah());
+// Params should be passed in the options object.
+export const healthAh = (url, options, handleSuccess, handleError) =>
+  dispatch => {
+    dispatch(actions.requestHealthAh());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
-        dispatch(actions.receiveHealth_ahSuccess(response.data, response.status));
+      .then(response => {
+        dispatch(actions.receiveHealthAhSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveHealth_ahError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveHealthAhError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Retrieve all accounts.
-// path is the request path, the format is "/cellar/accounts"
+// listAccounts calls the list action of the account resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const listAccounts = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const listAccounts = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestListAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveListAccountsSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveListAccountsError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveListAccountsError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// List all bottles in account optionally filtering by year
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles"
-// years is used to build the request query string.
+// listBottles calls the list action of the bottle resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const listBottles = (path, years) => {
-  return (dispatch) => {
+//
+// Query Parameters: years is expected in params.
+// Params should be passed in the options object.
+export const listBottles = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestListBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      params: {
-        years: years
-      },
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveListBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveListBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveListBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
 // rateBottles calls the rate action of the bottle resource.
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID/actions/rate"
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID/actions/rate
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
 // data contains the action payload (request body)
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const rateBottles = (path, data) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const rateBottles = (url, options, data, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestRateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'put',
-      data: data,
-      responseType: 'json'
+      data,
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveRateBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveRateBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveRateBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Retrieve account with given id. IDs 1 and 2 pre-exist in the system.
-// path is the request path, the format is "/cellar/accounts/:accountID"
+// showAccounts calls the show action of the account resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const showAccounts = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const showAccounts = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestShowAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveShowAccountsSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveShowAccountsError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveShowAccountsError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Retrieve bottle with given id
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
+// showBottles calls the show action of the bottle resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const showBottles = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const showBottles = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestShowBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveShowBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveShowBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveShowBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Change account name
-// path is the request path, the format is "/cellar/accounts/:accountID"
+// updateAccounts calls the update action of the account resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
 // data contains the action payload (request body)
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const updateAccounts = (path, data) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const updateAccounts = (url, options, data, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestUpdateAccounts());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'put',
-      data: data,
-      responseType: 'json'
+      data,
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveUpdateAccountsSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveUpdateAccountsError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveUpdateAccountsError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
+>>>>>>> updated goa cellar example
       });
   };
-};
 
 // updateBottles calls the update action of the bottle resource.
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID"
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
 // data contains the action payload (request body)
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const updateBottles = (path, data) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const updateBottles = (url, options, data, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestUpdateBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'patch',
-      data: data,
-      responseType: 'json'
+      data,
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveUpdateBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveUpdateBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveUpdateBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
 
-// Retrieve bottle with given id
-// path is the request path, the format is "/cellar/accounts/:accountID/bottles/:bottleID/watch"
+// watchBottles calls the watch action of the bottle resource.
+// url is the request url, the format is:
+// http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID/watch
+// Optional handleError and handleSuccess functions can be provided for the promise
+// if needed in addition to the redux actions.
+// Standard or custom headers can be passed in like this in the options:
+// { headers: {'X-My-Custom-Header': 'Header-Value'} }
+// The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
-export const watchBottles = (path) => {
-  return (dispatch) => {
+// Params should be passed in the options object.
+export const watchBottles = (url, options, handleSuccess, handleError) =>
+  dispatch => {
     dispatch(actions.requestWatchBottles());
     return axios({
       timeout: 20000,
-      url: 'http://localhost:8081' + path,
+      url,
       method: 'get',
-      responseType: 'json'
+      responseType: 'json',
+      ...options
     })
-      .then((response) => {
+      .then(response => {
         dispatch(actions.receiveWatchBottlesSuccess(response.data, response.status));
       })
-      .catch((response) => {
-        dispatch(actions.receiveWatchBottlesError(response.data, response.status));
+      .then(response => {
+        if (handleSuccess) {
+          handleSuccess(response);
+        }
+      })
+      .catch(error => {
+        let rdata;
+        if (error.response) {
+          rdata = error.response.data;
+        }
+        dispatch(actions.receiveWatchBottlesError(rdata, error.status));
+        throw error;
+      })
+      .catch(error => {
+        if (handleError) {
+          handleError(error);
+        }
       });
   };
-};
