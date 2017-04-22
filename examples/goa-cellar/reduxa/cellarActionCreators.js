@@ -484,7 +484,6 @@ export const updateAccounts = (url, options, data, handleSuccess, handleError) =
         if (handleError) {
           handleError(error);
         }
->>>>>>> updated goa cellar example
       });
   };
 

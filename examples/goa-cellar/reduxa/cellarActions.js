@@ -143,7 +143,6 @@ export const receiveUpdateAccountsError = (data, status) => ({
   type: types.RCV_UPDATE_ACCOUNTS_ERROR,
   data: data,
   status
->>>>>>> updated goa cellar example
 });
 export const requestUpdateBottles = () => ({
   type: types.REQ_UPDATE_BOTTLES
