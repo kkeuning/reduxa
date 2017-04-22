@@ -41,7 +41,7 @@ export const receiveListBottlesSuccess = (data, status) => ({
 });
 export const receiveListBottlesError = (data, status) => ({
   type: types.RCV_LIST_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 ```

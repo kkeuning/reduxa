@@ -11,7 +11,7 @@ export const receiveCreateAccountsSuccess = (data, status) => ({
 });
 export const receiveCreateAccountsError = (data, status) => ({
   type: types.RCV_CREATE_ACCOUNTS_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestCreateBottles = () => ({
@@ -24,7 +24,7 @@ export const receiveCreateBottlesSuccess = (data, status) => ({
 });
 export const receiveCreateBottlesError = (data, status) => ({
   type: types.RCV_CREATE_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestDeleteAccounts = () => ({
@@ -37,7 +37,7 @@ export const receiveDeleteAccountsSuccess = (data, status) => ({
 });
 export const receiveDeleteAccountsError = (data, status) => ({
   type: types.RCV_DELETE_ACCOUNTS_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestDeleteBottles = () => ({
@@ -50,7 +50,7 @@ export const receiveDeleteBottlesSuccess = (data, status) => ({
 });
 export const receiveDeleteBottlesError = (data, status) => ({
   type: types.RCV_DELETE_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestHealthAh = () => ({
@@ -63,7 +63,7 @@ export const receiveHealthAhSuccess = (data, status) => ({
 });
 export const receiveHealthAhError = (data, status) => ({
   type: types.RCV_HEALTH_AH_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestListAccounts = () => ({
@@ -76,7 +76,7 @@ export const receiveListAccountsSuccess = (data, status) => ({
 });
 export const receiveListAccountsError = (data, status) => ({
   type: types.RCV_LIST_ACCOUNTS_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestListBottles = () => ({
@@ -89,7 +89,7 @@ export const receiveListBottlesSuccess = (data, status) => ({
 });
 export const receiveListBottlesError = (data, status) => ({
   type: types.RCV_LIST_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestRateBottles = () => ({
@@ -102,7 +102,7 @@ export const receiveRateBottlesSuccess = (data, status) => ({
 });
 export const receiveRateBottlesError = (data, status) => ({
   type: types.RCV_RATE_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestShowAccounts = () => ({
@@ -115,7 +115,7 @@ export const receiveShowAccountsSuccess = (data, status) => ({
 });
 export const receiveShowAccountsError = (data, status) => ({
   type: types.RCV_SHOW_ACCOUNTS_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestShowBottles = () => ({
@@ -128,7 +128,7 @@ export const receiveShowBottlesSuccess = (data, status) => ({
 });
 export const receiveShowBottlesError = (data, status) => ({
   type: types.RCV_SHOW_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestUpdateAccounts = () => ({
@@ -141,7 +141,7 @@ export const receiveUpdateAccountsSuccess = (data, status) => ({
 });
 export const receiveUpdateAccountsError = (data, status) => ({
   type: types.RCV_UPDATE_ACCOUNTS_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestUpdateBottles = () => ({
@@ -154,7 +154,7 @@ export const receiveUpdateBottlesSuccess = (data, status) => ({
 });
 export const receiveUpdateBottlesError = (data, status) => ({
   type: types.RCV_UPDATE_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });
 export const requestWatchBottles = () => ({
@@ -167,6 +167,6 @@ export const receiveWatchBottlesSuccess = (data, status) => ({
 });
 export const receiveWatchBottlesError = (data, status) => ({
   type: types.RCV_WATCH_BOTTLES_ERROR,
-  data: data,
+  data,
   status
 });

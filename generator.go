@@ -354,7 +354,7 @@ export const receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Succe
 });
 export const receive{{title .Action.Name}}{{title .Action.Parent.BasePath}}Error = (data, status) => ({
   type: types.RCV_{{toUpper .Action.Name}}_{{toUpper .Action.Parent.BasePath}}_ERROR,
-  data: data,
+  data,
   status
 });
 `
