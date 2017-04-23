@@ -1,10 +1,10 @@
 # reduxa
 [goa](https://goa.design) plug-in to generate [redux](https://github.com/reactjs/redux) boilerplate
 
-Project status:  
+## Project Status  
 Although reduxa is "opinionated" it is still evolving.  Support for generation of action types, actions and action creators has been tested up to goa v1.1.0 with multiple api designs but may not yet cover every possible design or use case.  Ideas and pull requests are welcome!
 
-*Breaking changes:*  Release v0.2.0 included several breaking changes:
+**Breaking changes:**  Release v0.2.0 included several breaking changes:
 - Output is now split into multiple files per resource.
 - Action creators are more flexible to support overriding [Axios](https://github.com/mzabriskie/axios) options including headers for Authorization, etc.
 - Smarter pluralization
@@ -21,7 +21,9 @@ Reduxa currently generates your action types, actions, and action creators for u
 
 Thanks to Dan Abramov for Redux and to Raphael Simon for Goa.  
 
-Examples, generated from goa's [goa-cellar](https://github.com/goadesign/goa-cellar) design:
+## Example
+
+This example is generated from goa's [goa-cellar](https://github.com/goadesign/goa-cellar) design.
 
 Full example output is in the [examples](examples/README.md) folder.
 
