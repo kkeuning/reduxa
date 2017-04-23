@@ -1,24 +1,27 @@
 # reduxa
-goa plug-in to generate redux boilerplate
+[goa](https://goa.design) plug-in to generate [redux](https://github.com/reactjs/redux) boilerplate
 
-Project status:  Reduxa is still experimental however the generated code has been used in production.  Pull requests are welcome.
+Project status:  
+Although reduxa is "opinionated" it is still evolving.  Support for generation of action types, actions and action creators has been tested up to goa v1.1.0 with multiple api designs but may not yet cover every possible design or use case.  Ideas and pull requests are welcome!
 
-Breaking changes:  Release 0.2.x substantially updates the templates.  Use 0.1.0 if you are dependent on the initial release.
+Breaking changes:  Release v0.2.0 included several breaking changes:
+- Output is now split into multiple files per resource.
+- Action creators are more flexible to support overriding [Axios](https://github.com/mzabriskie/axios) options including headers for Authorization, etc.
+- Smarter pluralization
+- JavaScriptify to ensure the generated code is valid.
 
 Reduxa assumes you are using ES6 and likely Babel.
 
-I recommend formatting the Reduxa output with [Prettier](https://github.com/prettier/prettier)
+Reduxa output will conform closely to [Prettier](https://github.com/prettier/prettier)
+ and [Airbnb JavasScript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
+ [Prettier](https://github.com/prettier/prettier) from the generator.  For now I recommend using the [Prettier](https://github.com/prettier/prettier) CLI in a script, [grift](https://github.com/markbates/grift) or Makefile to format the generated output.
 
-Reduxa output will conform closley to Prettier  [Prettier](https://github.com/prettier/prettier)
- and [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
- [Prettier](https://github.com/prettier/prettier) from the generator.
-
-Reduxa currently generates your action types, actions, and action creators for use with Redux, Axios, and Redux Thunk middleware.  Scaffolding for reducers is under consideration for the future roadmap.  
+Reduxa currently generates your action types, actions, and action creators for use with [Redux](https://github.com/reactjs/redux), [Axios](https://github.com/mzabriskie/axios), and [Redux Thunk](https://github.com/gaearon/redux-thunk) middleware.  Scaffolding for reducers is under consideration for the future roadmap.  
 
 
 Thanks to Dan Abramov for Redux and to Raphael Simon for Goa.  
 
-Examples, based on goa's goa-cellar design:
+Examples, generated from goa's [goa-cellar](https://github.com/goadesign/goa-cellar) design:
 
 Full example output is in the [examples](examples/README.md) folder.
 
