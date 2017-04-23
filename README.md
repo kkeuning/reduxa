@@ -11,6 +11,10 @@ Reduxa assumes you are using ES6 and likely Babel.
 
 I recommend formatting the Reduxa output with [Prettier](https://github.com/prettier/prettier)
 
+Reduxa output will conform closley to Prettier  [Prettier](https://github.com/prettier/prettier)
+ and [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
+ [Prettier](https://github.com/prettier/prettier) from the generator.
+
 ```
 goagen gen -d github.com/goadesign/goa-cellar/design --pkg-path=github.com/kkeuning/reduxa
 ```
