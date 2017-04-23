@@ -5,8 +5,6 @@ Project status:  Reduxa is still experimental however the generated code has bee
 
 Breaking changes:  Release 0.2.x substantially updates the templates.  Use 0.1.0 if you are dependent on the initial release.
 
-Run `goagen` from inside your client project to create the `reduxa/` folder and generated code.
-
 Reduxa assumes you are using ES6 and likely Babel.
 
 I recommend formatting the Reduxa output with [Prettier](https://github.com/prettier/prettier)
@@ -15,16 +13,18 @@ Reduxa output will conform closley to Prettier  [Prettier](https://github.com/pr
  and [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
  [Prettier](https://github.com/prettier/prettier) from the generator.
 
-```
-goagen gen -d github.com/goadesign/goa-cellar/design --pkg-path=github.com/kkeuning/reduxa
-```
-
 Reduxa currently generates your action types, actions, and action creators for use with Redux, Axios, and Redux Thunk middleware.  Scaffolding for reducers is under consideration for the future roadmap.  
 
 
 Thanks to Dan Abramov for Redux and to Raphael Simon for Goa.  
 
 Examples, based on goa's goa-cellar design:
+
+Full example output is in the [examples](examples/README.md) folder.
+
+```
+goagen gen -d github.com/goadesign/goa-cellar/design --pkg-path=github.com/kkeuning/reduxa
+```
 
 Generated Redux action types:
 ```
