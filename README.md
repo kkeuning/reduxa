@@ -4,7 +4,7 @@
 Project status:  
 Although reduxa is "opinionated" it is still evolving.  Support for generation of action types, actions and action creators has been tested up to goa v1.1.0 with multiple api designs but may not yet cover every possible design or use case.  Ideas and pull requests are welcome!
 
-Breaking changes:  Release v0.2.0 included several breaking changes:
+*Breaking changes:*  Release v0.2.0 included several breaking changes:
 - Output is now split into multiple files per resource.
 - Action creators are more flexible to support overriding [Axios](https://github.com/mzabriskie/axios) options including headers for Authorization, etc.
 - Smarter pluralization
@@ -13,7 +13,7 @@ Breaking changes:  Release v0.2.0 included several breaking changes:
 Reduxa assumes you are using ES6 and likely Babel.
 
 Reduxa output will conform closely to [Prettier](https://github.com/prettier/prettier)
- and [Airbnb JavasScript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
+ and [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript), with the biggest exception being line length.  Future versions of Reduxa might optionally invoke
  [Prettier](https://github.com/prettier/prettier) from the generator.  For now I recommend using the [Prettier](https://github.com/prettier/prettier) CLI in a script, [grift](https://github.com/markbates/grift) or Makefile to format the generated output.
 
 Reduxa currently generates your action types, actions, and action creators for use with [Redux](https://github.com/reactjs/redux), [Axios](https://github.com/mzabriskie/axios), and [Redux Thunk](https://github.com/gaearon/redux-thunk) middleware.  Scaffolding for reducers is under consideration for the future roadmap.  
