@@ -4,7 +4,7 @@
 import * as actions from './cellarActions';
 import axios from 'axios';
 
-// createAccounts calls the create action of the account resource.
+// createAccount calls the create action of the account resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -15,9 +15,9 @@ import axios from 'axios';
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const createAccounts = (url, options, data, handleSuccess, handleError) =>
+export const createAccount = (url, options, data, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestCreateAccounts());
+    dispatch(actions.requestCreateAccount());
     return axios({
       timeout: 20000,
       url,
@@ -27,7 +27,7 @@ export const createAccounts = (url, options, data, handleSuccess, handleError) =
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveCreateAccountsSuccess(response.data, response.status));
+        dispatch(actions.receiveCreateAccountSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -39,7 +39,7 @@ export const createAccounts = (url, options, data, handleSuccess, handleError) =
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveCreateAccountsError(rdata, error.status));
+        dispatch(actions.receiveCreateAccountError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -49,7 +49,7 @@ export const createAccounts = (url, options, data, handleSuccess, handleError) =
       });
   };
 
-// createBottles calls the create action of the bottle resource.
+// createBottle calls the create action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -60,9 +60,9 @@ export const createAccounts = (url, options, data, handleSuccess, handleError) =
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const createBottles = (url, options, data, handleSuccess, handleError) =>
+export const createBottle = (url, options, data, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestCreateBottles());
+    dispatch(actions.requestCreateBottle());
     return axios({
       timeout: 20000,
       url,
@@ -72,7 +72,7 @@ export const createBottles = (url, options, data, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveCreateBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveCreateBottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -84,7 +84,7 @@ export const createBottles = (url, options, data, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveCreateBottlesError(rdata, error.status));
+        dispatch(actions.receiveCreateBottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -94,7 +94,7 @@ export const createBottles = (url, options, data, handleSuccess, handleError) =>
       });
   };
 
-// deleteAccounts calls the delete action of the account resource.
+// delete_Account calls the delete action of the account resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -104,9 +104,9 @@ export const createBottles = (url, options, data, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const deleteAccounts = (url, options, handleSuccess, handleError) =>
+export const delete_Account = (url, options, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestDeleteAccounts());
+    dispatch(actions.requestDelete_Account());
     return axios({
       timeout: 20000,
       url,
@@ -115,7 +115,7 @@ export const deleteAccounts = (url, options, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveDeleteAccountsSuccess(response.data, response.status));
+        dispatch(actions.receiveDelete_AccountSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -127,7 +127,7 @@ export const deleteAccounts = (url, options, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveDeleteAccountsError(rdata, error.status));
+        dispatch(actions.receiveDelete_AccountError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -137,7 +137,7 @@ export const deleteAccounts = (url, options, handleSuccess, handleError) =>
       });
   };
 
-// deleteBottles calls the delete action of the bottle resource.
+// delete_Bottle calls the delete action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -147,9 +147,9 @@ export const deleteAccounts = (url, options, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const deleteBottles = (url, options, handleSuccess, handleError) =>
+export const delete_Bottle = (url, options, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestDeleteBottles());
+    dispatch(actions.requestDelete_Bottle());
     return axios({
       timeout: 20000,
       url,
@@ -158,7 +158,7 @@ export const deleteBottles = (url, options, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveDeleteBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveDelete_BottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -170,7 +170,7 @@ export const deleteBottles = (url, options, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveDeleteBottlesError(rdata, error.status));
+        dispatch(actions.receiveDelete_BottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -311,7 +311,7 @@ export const listBottles = (url, options, handleSuccess, handleError) =>
       });
   };
 
-// rateBottles calls the rate action of the bottle resource.
+// rateBottle calls the rate action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID/actions/rate
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -322,9 +322,9 @@ export const listBottles = (url, options, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const rateBottles = (url, options, data, handleSuccess, handleError) =>
+export const rateBottle = (url, options, data, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestRateBottles());
+    dispatch(actions.requestRateBottle());
     return axios({
       timeout: 20000,
       url,
@@ -334,7 +334,7 @@ export const rateBottles = (url, options, data, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveRateBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveRateBottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -346,7 +346,7 @@ export const rateBottles = (url, options, data, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveRateBottlesError(rdata, error.status));
+        dispatch(actions.receiveRateBottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -356,7 +356,7 @@ export const rateBottles = (url, options, data, handleSuccess, handleError) =>
       });
   };
 
-// showAccounts calls the show action of the account resource.
+// showAccount calls the show action of the account resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -366,9 +366,9 @@ export const rateBottles = (url, options, data, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const showAccounts = (url, options, handleSuccess, handleError) =>
+export const showAccount = (url, options, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestShowAccounts());
+    dispatch(actions.requestShowAccount());
     return axios({
       timeout: 20000,
       url,
@@ -377,7 +377,7 @@ export const showAccounts = (url, options, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveShowAccountsSuccess(response.data, response.status));
+        dispatch(actions.receiveShowAccountSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -389,7 +389,7 @@ export const showAccounts = (url, options, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveShowAccountsError(rdata, error.status));
+        dispatch(actions.receiveShowAccountError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -399,7 +399,7 @@ export const showAccounts = (url, options, handleSuccess, handleError) =>
       });
   };
 
-// showBottles calls the show action of the bottle resource.
+// showBottle calls the show action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -409,9 +409,9 @@ export const showAccounts = (url, options, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const showBottles = (url, options, handleSuccess, handleError) =>
+export const showBottle = (url, options, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestShowBottles());
+    dispatch(actions.requestShowBottle());
     return axios({
       timeout: 20000,
       url,
@@ -420,7 +420,7 @@ export const showBottles = (url, options, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveShowBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveShowBottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -432,7 +432,7 @@ export const showBottles = (url, options, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveShowBottlesError(rdata, error.status));
+        dispatch(actions.receiveShowBottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -442,7 +442,7 @@ export const showBottles = (url, options, handleSuccess, handleError) =>
       });
   };
 
-// updateAccounts calls the update action of the account resource.
+// updateAccount calls the update action of the account resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -453,9 +453,9 @@ export const showBottles = (url, options, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const updateAccounts = (url, options, data, handleSuccess, handleError) =>
+export const updateAccount = (url, options, data, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestUpdateAccounts());
+    dispatch(actions.requestUpdateAccount());
     return axios({
       timeout: 20000,
       url,
@@ -465,7 +465,7 @@ export const updateAccounts = (url, options, data, handleSuccess, handleError) =
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveUpdateAccountsSuccess(response.data, response.status));
+        dispatch(actions.receiveUpdateAccountSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -477,7 +477,7 @@ export const updateAccounts = (url, options, data, handleSuccess, handleError) =
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveUpdateAccountsError(rdata, error.status));
+        dispatch(actions.receiveUpdateAccountError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -487,7 +487,7 @@ export const updateAccounts = (url, options, data, handleSuccess, handleError) =
       });
   };
 
-// updateBottles calls the update action of the bottle resource.
+// updateBottle calls the update action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -498,9 +498,9 @@ export const updateAccounts = (url, options, data, handleSuccess, handleError) =
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const updateBottles = (url, options, data, handleSuccess, handleError) =>
+export const updateBottle = (url, options, data, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestUpdateBottles());
+    dispatch(actions.requestUpdateBottle());
     return axios({
       timeout: 20000,
       url,
@@ -510,7 +510,7 @@ export const updateBottles = (url, options, data, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveUpdateBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveUpdateBottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -522,7 +522,7 @@ export const updateBottles = (url, options, data, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveUpdateBottlesError(rdata, error.status));
+        dispatch(actions.receiveUpdateBottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
@@ -532,7 +532,7 @@ export const updateBottles = (url, options, data, handleSuccess, handleError) =>
       });
   };
 
-// watchBottles calls the watch action of the bottle resource.
+// watchBottle calls the watch action of the bottle resource.
 // url is the request url, the format is:
 // http://localhost:8081/cellar/accounts/:accountID/bottles/:bottleID/watch
 // Optional handleError and handleSuccess functions can be provided for the promise
@@ -542,9 +542,9 @@ export const updateBottles = (url, options, data, handleSuccess, handleError) =>
 // The options object will take precedence over default values for timeout, etc.
 // This function returns a promise which dispatches an error if the HTTP response is a 4xx or 5xx.
 // Params should be passed in the options object.
-export const watchBottles = (url, options, handleSuccess, handleError) =>
+export const watchBottle = (url, options, handleSuccess, handleError) =>
   dispatch => {
-    dispatch(actions.requestWatchBottles());
+    dispatch(actions.requestWatchBottle());
     return axios({
       timeout: 20000,
       url,
@@ -553,7 +553,7 @@ export const watchBottles = (url, options, handleSuccess, handleError) =>
       ...options
     })
       .then(response => {
-        dispatch(actions.receiveWatchBottlesSuccess(response.data, response.status));
+        dispatch(actions.receiveWatchBottleSuccess(response.data, response.status));
       })
       .then(response => {
         if (handleSuccess) {
@@ -565,7 +565,7 @@ export const watchBottles = (url, options, handleSuccess, handleError) =>
         if (error.response) {
           rdata = error.response.data;
         }
-        dispatch(actions.receiveWatchBottlesError(rdata, error.status));
+        dispatch(actions.receiveWatchBottleError(rdata, error.status));
         throw error;
       })
       .catch(error => {
