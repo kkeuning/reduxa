@@ -75,7 +75,7 @@ func (g *Generator) Generate(api *design.APIDefinition) (_ []string, err error) 
 		return nil, fmt.Errorf("missing host value, set it with --host")
 	}
 
-	g.outDir = filepath.Join(g.outDir, "reduxa")
+	g.outDir = filepath.Join(g.outDir, api.Name)
 	if err := os.RemoveAll(g.outDir); err != nil {
 		return nil, err
 	}
@@ -84,54 +84,62 @@ func (g *Generator) Generate(api *design.APIDefinition) (_ []string, err error) 
 	}
 	g.genfiles = append(g.genfiles, g.outDir)
 
-	// Generate Redux action creators for this goa API
-	err = g.generateReduxActionCreators(filepath.Join(g.outDir, fmt.Sprint(api.Name+"ActionCreators.js")), api)
-	if err != nil {
-		return
-	}
+	api.IterateResources(func(res *design.ResourceDefinition) error {
+		resourceName := JavaScriptify(strings.TrimLeft(res.BasePath, "/"), false, false)
+		if resourceName == "" {
+			return nil
+		}
+		// Generate Redux action creators for this goa API
+		err = g.generateReduxActionCreators(filepath.Join(g.outDir, fmt.Sprint(resourceName, "ActionCreators.js")), api, res)
+		if err != nil {
+			return err
+		}
 
-	// Generate Redux action types for this goa API
-	err = g.generateReduxActionTypes(filepath.Join(g.outDir, fmt.Sprint(api.Name, "ActionTypes.js")), api)
-	if err != nil {
-		return
-	}
+		// Generate Redux action types for this goa API
+		err = g.generateReduxActionTypes(filepath.Join(g.outDir, fmt.Sprint(resourceName, "ActionTypes.js")), api, res)
+		if err != nil {
+			return err
+		}
 
-	// Generate Redux actions for this goa API
-	err = g.generateReduxActions(filepath.Join(g.outDir, fmt.Sprint(api.Name, "Actions.js")), api)
-	if err != nil {
-		return
-	}
+		// Generate Redux actions for this goa API
+		err = g.generateReduxActions(filepath.Join(g.outDir, fmt.Sprint(resourceName, "Actions.js")), api, res)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 
 	return g.genfiles, nil
 }
 
-func (g *Generator) generateReduxActionCreators(jsFile string, api *design.APIDefinition) (err error) {
+func (g *Generator) generateReduxActionCreators(jsFile string, api *design.APIDefinition, res *design.ResourceDefinition) (err error) {
+	funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "actionUnderResource": actionUnderResource}
 	file, err := codegen.SourceFileFor(jsFile)
 	if err != nil {
 		return
 	}
 	g.genfiles = append(g.genfiles, jsFile)
 
-	data := map[string]interface{}{
-		"API":     api,
-		"Host":    g.host,
-		"Scheme":  g.scheme,
-		"Timeout": int64(g.timeout / time.Millisecond),
+	if res == nil {
+		return
 	}
-	if err = file.ExecuteTemplate("beginActionCreators", beginActionCreatorsT, nil, data); err != nil {
+	data := map[string]interface{}{
+		"API":      api,
+		"BaseName": baseName(res),
+	}
+
+	if err = file.ExecuteTemplate("beginActionCreators", beginActionCreatorsT, funcs, data); err != nil {
 		return
 	}
 
 	actions := make(map[string][]*design.ActionDefinition)
-	api.IterateResources(func(res *design.ResourceDefinition) error {
-		return res.IterateActions(func(action *design.ActionDefinition) error {
-			if as, ok := actions[action.Name]; ok {
-				actions[action.Name] = append(as, action)
-			} else {
-				actions[action.Name] = []*design.ActionDefinition{action}
-			}
-			return nil
-		})
+	res.IterateActions(func(action *design.ActionDefinition) error {
+		if as, ok := actions[action.Name]; ok {
+			actions[action.Name] = append(as, action)
+		} else {
+			actions[action.Name] = []*design.ActionDefinition{action}
+		}
+		return nil
 	})
 
 	keys := []string{}
@@ -140,16 +148,21 @@ func (g *Generator) generateReduxActionCreators(jsFile string, api *design.APIDe
 	}
 	sort.Strings(keys)
 	for _, n := range keys {
+	Actions:
 		for _, a := range actions[n] {
-			a.Parent.BasePath = JavaScriptify(strings.TrimLeft(a.Parent.BasePath, "/"), false)
-			data := map[string]interface{}{
-				"Action":  a,
-				"API":     api,
-				"Host":    g.host,
-				"Scheme":  g.scheme,
-				"Timeout": int64(g.timeout / time.Millisecond),
+			for _, scheme := range a.Schemes {
+				if scheme == "ws" {
+					continue Actions
+				}
 			}
-			funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "javaScriptify": JavaScriptify}
+			data := map[string]interface{}{
+				"Action":       a,
+				"API":          api,
+				"Host":         g.host,
+				"Scheme":       g.scheme,
+				"Timeout":      int64(g.timeout / time.Millisecond),
+				"ResourceName": actionResourceName(res, a),
+			}
 			if err = file.ExecuteTemplate("actionCreators", actionCreatorsT, funcs, data); err != nil {
 				return
 			}
@@ -159,7 +172,8 @@ func (g *Generator) generateReduxActionCreators(jsFile string, api *design.APIDe
 	return err
 }
 
-func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefinition) (err error) {
+func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefinition, res *design.ResourceDefinition) (err error) {
+	funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "actionUnderResource": actionUnderResource}
 	file, err := codegen.SourceFileFor(jsFile)
 	if err != nil {
 		return
@@ -167,15 +181,13 @@ func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefin
 	g.genfiles = append(g.genfiles, jsFile)
 
 	actions := make(map[string][]*design.ActionDefinition)
-	api.IterateResources(func(res *design.ResourceDefinition) error {
-		return res.IterateActions(func(action *design.ActionDefinition) error {
-			if as, ok := actions[action.Name]; ok {
-				actions[action.Name] = append(as, action)
-			} else {
-				actions[action.Name] = []*design.ActionDefinition{action}
-			}
-			return nil
-		})
+	res.IterateActions(func(action *design.ActionDefinition) error {
+		if as, ok := actions[action.Name]; ok {
+			actions[action.Name] = append(as, action)
+		} else {
+			actions[action.Name] = []*design.ActionDefinition{action}
+		}
+		return nil
 	})
 
 	keys := []string{}
@@ -184,10 +196,14 @@ func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefin
 	}
 	sort.Strings(keys)
 	for _, n := range keys {
+	Actions:
 		for _, a := range actions[n] {
-			a.Parent.BasePath = JavaScriptify(strings.TrimLeft(a.Parent.BasePath, "/"), false)
-			data := map[string]interface{}{"Action": a}
-			funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "javaScriptify": JavaScriptify}
+			for _, scheme := range a.Schemes {
+				if scheme == "ws" {
+					continue Actions
+				}
+			}
+			data := map[string]interface{}{"Action": a, "ResourceName": actionResourceName(res, a)}
 			if err = file.ExecuteTemplate("actionTypes", actionTypesT, funcs, data); err != nil {
 				return
 			}
@@ -197,33 +213,34 @@ func (g *Generator) generateReduxActionTypes(jsFile string, api *design.APIDefin
 	return err
 }
 
-func (g *Generator) generateReduxActions(jsFile string, api *design.APIDefinition) (err error) {
+func (g *Generator) generateReduxActions(jsFile string, api *design.APIDefinition, res *design.ResourceDefinition) (err error) {
 	file, err := codegen.SourceFileFor(jsFile)
 	if err != nil {
 		return
 	}
 	g.genfiles = append(g.genfiles, jsFile)
 
-	data := map[string]interface{}{
-		"API":     api,
-		"Host":    g.host,
-		"Scheme":  g.scheme,
-		"Timeout": int64(g.timeout / time.Millisecond),
+	if res == nil {
+		return
 	}
-	if err = file.ExecuteTemplate("beginActions", beginActionsT, nil, data); err != nil {
+	data := map[string]interface{}{
+		"API":      api,
+		"BaseName": baseName(res),
+	}
+
+	funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "actionUnderResource": actionUnderResource}
+	if err = file.ExecuteTemplate("beginActions", beginActionsT, funcs, data); err != nil {
 		return
 	}
 
 	actions := make(map[string][]*design.ActionDefinition)
-	api.IterateResources(func(res *design.ResourceDefinition) error {
-		return res.IterateActions(func(action *design.ActionDefinition) error {
-			if as, ok := actions[action.Name]; ok {
-				actions[action.Name] = append(as, action)
-			} else {
-				actions[action.Name] = []*design.ActionDefinition{action}
-			}
-			return nil
-		})
+	res.IterateActions(func(action *design.ActionDefinition) error {
+		if as, ok := actions[action.Name]; ok {
+			actions[action.Name] = append(as, action)
+		} else {
+			actions[action.Name] = []*design.ActionDefinition{action}
+		}
+		return nil
 	})
 
 	keys := []string{}
@@ -232,15 +249,18 @@ func (g *Generator) generateReduxActions(jsFile string, api *design.APIDefinitio
 	}
 	sort.Strings(keys)
 	for _, n := range keys {
+	Actions:
 		for _, a := range actions[n] {
-			data := map[string]interface{}{
-				"Action":  a,
-				"API":     api,
-				"Host":    g.host,
-				"Scheme":  g.scheme,
-				"Timeout": int64(g.timeout / time.Millisecond),
+			for _, scheme := range a.Schemes {
+				if scheme == "ws" {
+					continue Actions
+				}
 			}
-			funcs := template.FuncMap{"params": params, "toUpper": strings.ToUpper, "resourceName": resourceName, "javaScriptify": JavaScriptify}
+			data := map[string]interface{}{
+				"Action":       a,
+				"API":          api,
+				"ResourceName": actionResourceName(res, a),
+			}
 			if err = file.ExecuteTemplate("actions", actionsT, funcs, data); err != nil {
 				return
 			}
@@ -250,18 +270,36 @@ func (g *Generator) generateReduxActions(jsFile string, api *design.APIDefinitio
 	return err
 }
 
-func resourceName(a design.ActionDefinition) string {
-	name := a.Parent.BasePath
+func resourceName(res *design.ResourceDefinition) string {
+	name := strings.TrimLeft(res.BasePath, "/")
 	singular := true
-	for _, response := range a.Responses {
+	for _, response := range res.Responses {
 		if response != nil && strings.Contains(response.MediaType, "type=collection") {
 			singular = false
 		}
 	}
 	if singular {
-		name = JavaScriptify(inflect.Singularize(JavaScriptify(name, false)), false)
+		name = JavaScriptify(inflect.Singularize(name), false, false)
 	} else {
-		name = JavaScriptify(inflect.Pluralize(JavaScriptify(name, false)), false)
+		name = JavaScriptify(inflect.Pluralize(name), false, false)
+	}
+	return name
+}
+
+func baseName(res *design.ResourceDefinition) string {
+	return strings.TrimLeft(res.BasePath, "/")
+}
+
+func actionResourceName(res *design.ResourceDefinition, action *design.ActionDefinition) string {
+	name := strings.TrimLeft(res.BasePath, "/")
+	singular := true
+	for _, response := range action.Responses {
+		if response != nil && strings.Contains(response.MediaType, "type=collection") {
+			singular = false
+		}
+	}
+	if singular {
+		name = JavaScriptify(inflect.Singularize(name), false, false)
 	}
 	return name
 }
@@ -272,6 +310,17 @@ func (g *Generator) Cleanup() {
 		os.Remove(f)
 	}
 	g.genfiles = nil
+}
+
+// Helper for templates to combine action name and resource name
+// into a JavaScript safe string for naming redux action types
+func actionUnderResource(action string, resource string) string {
+	return fmt.Sprint(
+		// Its ok for the action be a reserved word here
+		strings.ToUpper(JavaScriptify(action, false, true)),
+		"_",
+		strings.ToUpper(JavaScriptify(resource, false, false)),
+	)
 }
 
 func params(action *design.ActionDefinition) []string {
@@ -289,18 +338,18 @@ func params(action *design.ActionDefinition) []string {
 }
 
 const beginActionsT = `// This module exports redux actions for the {{.API.Name}} API hosted at {{.API.Host}}.
-import * as types from './{{.API.Name}}ActionTypes';
+import * as types from './{{.BasePath}}ActionTypes';
 
 `
 
 const beginActionCreatorsT = `// This module exports redux action creators for the {{.API.Name}} API hosted at {{.API.Host}}.
 // Redux Thunk middleware or equivalent is required to use these action creators.
 // It uses the axios javascript library for making the actual HTTP requests.
-import * as actions from './{{.API.Name}}Actions';
+import * as actions from './{{.BasePath}}Actions';
 import axios from 'axios';
 `
 
-const actionCreatorsT = `{{$params := params .Action}}{{$resourceName := resourceName .Action}}{{$actionName := javaScriptify .Action.Name false}}
+const actionCreatorsT = `{{$params := params .Action}}{{$resourceName := .ResourceName}}{{$actionName := .Action.Name}}
 // {{$actionName}}{{title $resourceName}} calls the {{.Action.Name}} action of the {{.Action.Parent.Name}} resource.
 // url is the request url, the format is:
 // {{.Scheme}}://{{.Host}}{{(index .Action.Routes 0).FullPath}}
@@ -348,27 +397,22 @@ export const {{$actionName}}{{title $resourceName}} = (url, options{{if .Action.
       });
   };
 `
-const resourceActionsTypesT = `{{$resourceName := resourceName .Action}}export const {{toUpper ($resourceName)}}_RESET = '{{toUpper ($resourceName)}}_RESET';
-`
-const resourceActionsT = `{{$resourceName := resourceName .Action}}{{$actionName := javaScriptify .Action.Name false}}export const {{title $actionName}}title $resourceName}}Reset = () => ({
-  type: types.{{toUpper $actionName_{{toUpper $resourceName}}_RESET
-});`
 
-const actionTypesT = `{{$resourceName := resourceName .Action}}{{$actionName := javaScriptify .Action.Name false}}export const REQ_{{toUpper $actionName}}_{{toUpper $resourceName}} = 'REQ_{{toUpper $actionName}}_{{toUpper $resourceName}}';
-export const RCV_{{toUpper $actionName}}_{{toUpper ($resourceName)}}_SUCCESS = 'RCV_{{toUpper $actionName}}_{{toUpper ($resourceName)}}_SUCCESS';
-export const RCV_{{toUpper $actionName}}_{{toUpper ($resourceName)}}_ERROR = 'RCV_{{toUpper $actionName}}_{{toUpper ($resourceName)}}_ERROR';
+const actionTypesT = `{{$resourceName := .ResourceName}}{{$actionName := .Action.Name}}export const REQ_{{ actionUnderResource $actionName $resourceName}} = 'REQ_{{actionUnderResource $actionName $resourceName}}';
+export const RCV_{{actionUnderResource $actionName $resourceName}}_SUCCESS = 'RCV_{{actionUnderResource $actionName $resourceName}}_SUCCESS';
+export const RCV_{{actionUnderResource $actionName $resourceName}}_ERROR = 'RCV_{{actionUnderResource $actionName $resourceName}}_ERROR';
 `
 
-const actionsT = `{{$resourceName := resourceName .Action}}{{$actionName := javaScriptify .Action.Name false}}export const request{{title $actionName}}{{title $resourceName}} = () => ({
-  type: types.REQ_{{toUpper $actionName}}_{{toUpper $resourceName}}
+const actionsT = `{{$resourceName := .ResourceName}}{{$actionName := .Action.Name}}export const request{{title $actionName}}{{title $resourceName}} = () => ({
+  type: types.REQ_{{actionUnderResource $actionName $resourceName}}
 });
 export const receive{{title $actionName}}{{title $resourceName}}Success = (data, status) => ({
-  type: types.RCV_{{toUpper $actionName}}_{{toUpper $resourceName}}_SUCCESS,
+  type: types.RCV_{{actionUnderResource $actionName $resourceName}}_SUCCESS,
   data,
   status
 });
 export const receive{{title $actionName}}{{title $resourceName}}Error = (data, status) => ({
-  type: types.RCV_{{toUpper $actionName}}_{{toUpper $resourceName}}_ERROR,
+  type: types.RCV_{{actionUnderResource $actionName $resourceName}}_ERROR,
   data,
   status
 });

@@ -10,7 +10,7 @@ import (
 // character is a letter or "_".
 // JavaScriptify produces a "CamelCase" version of the string, if firstUpper is true the first character
 // of the identifier is uppercase otherwise it's lowercase.
-func JavaScriptify(str string, firstUpper bool) string {
+func JavaScriptify(str string, firstUpper bool, allowReserved bool) string {
 	runes := []rune(str)
 
 	// remove trailing invalid identifiers (makes code below simpler)
@@ -70,6 +70,9 @@ func JavaScriptify(str string, firstUpper bool) string {
 		}
 		//advance to next word
 		w = i
+	}
+	if allowReserved {
+		return string(runes)
 	}
 
 	return fixReserved(string(runes))
