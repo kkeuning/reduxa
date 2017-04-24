@@ -1,8 +1,8 @@
 // This module exports redux action creators for the cellar API hosted at localhost:8081.
 // Redux Thunk middleware or equivalent is required to use these action creators.
 // It uses the axios javascript library for making the actual HTTP requests.
-import * as actions from './bottleActions';
 import axios from 'axios';
+import * as actions from './bottleActions';
 
 // createBottle calls the create action of the bottle resource.
 // url is the request url, the format is:

@@ -1,8 +1,8 @@
 // This module exports redux action creators for the cellar API hosted at localhost:8081.
 // Redux Thunk middleware or equivalent is required to use these action creators.
 // It uses the axios javascript library for making the actual HTTP requests.
-import * as actions from './ahActions';
 import axios from 'axios';
+import * as actions from './ahActions';
 
 // healthAh calls the health action of the health resource.
 // url is the request url, the format is:
