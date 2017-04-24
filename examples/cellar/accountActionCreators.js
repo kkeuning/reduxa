@@ -36,10 +36,12 @@ export const createAccount = (url, options, data, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveCreateAccountError(rdata, error.status));
+        dispatch(actions.receiveCreateAccountError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -79,10 +81,12 @@ export const deleteAccount = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveDeleteAccountError(rdata, error.status));
+        dispatch(actions.receiveDeleteAccountError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -122,10 +126,12 @@ export const listAccounts = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveListAccountsError(rdata, error.status));
+        dispatch(actions.receiveListAccountsError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -165,10 +171,12 @@ export const showAccount = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveShowAccountError(rdata, error.status));
+        dispatch(actions.receiveShowAccountError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -210,10 +218,12 @@ export const updateAccount = (url, options, data, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveUpdateAccountError(rdata, error.status));
+        dispatch(actions.receiveUpdateAccountError(rdata, rstatus));
         throw error;
       })
       .catch(error => {

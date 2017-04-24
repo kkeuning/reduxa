@@ -89,10 +89,12 @@ export const listBottles = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveListBottlesError(rdata, error.status));
+        dispatch(actions.receiveListBottlesError(rdata, rstatus));
         throw error;
       })
       .catch(error => {

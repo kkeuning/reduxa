@@ -34,10 +34,12 @@ export const healthAh = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveHealthAhError(rdata, error.status));
+        dispatch(actions.receiveHealthAhError(rdata, rstatus));
         throw error;
       })
       .catch(error => {

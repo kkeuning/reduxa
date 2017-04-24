@@ -36,10 +36,12 @@ export const createBottle = (url, options, data, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveCreateBottleError(rdata, error.status));
+        dispatch(actions.receiveCreateBottleError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -79,10 +81,12 @@ export const deleteBottle = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveDeleteBottleError(rdata, error.status));
+        dispatch(actions.receiveDeleteBottleError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -124,10 +128,12 @@ export const listBottles = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveListBottlesError(rdata, error.status));
+        dispatch(actions.receiveListBottlesError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -169,10 +175,12 @@ export const rateBottle = (url, options, data, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveRateBottleError(rdata, error.status));
+        dispatch(actions.receiveRateBottleError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -212,10 +220,12 @@ export const showBottle = (url, options, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveShowBottleError(rdata, error.status));
+        dispatch(actions.receiveShowBottleError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
@@ -257,10 +267,12 @@ export const updateBottle = (url, options, data, handleSuccess, handleError) =>
       })
       .catch(error => {
         let rdata;
+        let rstatus;
         if (error.response) {
           rdata = error.response.data;
+          rstatus = error.response.status;
         }
-        dispatch(actions.receiveUpdateBottleError(rdata, error.status));
+        dispatch(actions.receiveUpdateBottleError(rdata, rstatus));
         throw error;
       })
       .catch(error => {
