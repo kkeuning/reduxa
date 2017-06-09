@@ -300,6 +300,8 @@ func actionResourceName(res *design.ResourceDefinition, action *design.ActionDef
 	}
 	if singular {
 		name = JavaScriptify(inflect.Singularize(name), false, false)
+	} else {
+		name = JavaScriptify(inflect.Pluralize(name), false, false)
 	}
 	return name
 }
